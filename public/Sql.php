@@ -29,22 +29,24 @@ class Sql extends PDO{
     
     }
 
-    public function query($rawQuery, $params = array()){
+    public function queryX($rawQuery, array $params = []){
         
         $stmt = $this->conn->prepare($rawQuery);
         
         $this->setParams($stmt, $params);
 
-        return $stmt->execute();
-
+        $stmt->execute();
+        
+        return $stmt;
 
     }
 
-    public function select($rawQuery, $params = array()):array{
+    public function select( $rawQuery, array $params = []):array
+    {
 
-        $stmt = $this->query($rawQuery, $params);
+        $stmt = $this->queryX($rawQuery, $params);
 
-        $stmt->fetAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
     }
