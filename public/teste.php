@@ -1,6 +1,0 @@
-<?php
-
-
-//Testando os versionamentos
-
-?>
