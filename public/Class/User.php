@@ -57,6 +57,31 @@ class User{
 
     }
 
+
+    public function loadById($id){
+
+        $sql = new Sql();
+
+        $results = $sql->select("SELECT * FROM users WHERE id = :ID", array(":ID=>$id"));
+
+        if (count($results) > 0){
+
+            $row = $results[0];
+
+            $this->setId($row['id']);
+
+            $this->setId($row['login']);
+
+            $this->setId($row['senha']);
+
+            $this->setId(new DateTime($row['data_tempo']));
+
+
+        }
+
+    }
+
+
 }
 
 ?>
