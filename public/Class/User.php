@@ -57,7 +57,15 @@ class User{
 
     }
 
+    public static function listUsers(){
 
+        $sql = new Sql();
+
+        return $sql->select("SELECT * FROM users ORDER BY id");
+
+
+
+    }
     public function loadById($id){
 
         $sql = new Sql();
