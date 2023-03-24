@@ -30,8 +30,11 @@ echo json_encode($searchUser);
 */
 
 //Retornando usuário de acordo com a senha e o login passado
-$user->login("guilherme.teste@email.com","598643");
-echo $user;
+// $user->login("guilherme.teste@email.com","598643");
+// echo $user;
 
+
+//Cadastrando usurário diretamente por método estático
+User::registerUser("outro.php@email.com","777");
 
 ?>

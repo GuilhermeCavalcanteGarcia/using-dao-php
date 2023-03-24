@@ -71,6 +71,18 @@ class User{
 
     }
 
+    public static function registerUser($login, $senha){
+
+        $sql = new Sql();
+
+        $request = $sql->select("INSERT INTO users(login, senha) VALUES(:LOGIN,:PASSWORD)", array(
+            ':LOGIN'=>$login,
+            ':PASSWORD'=>$senha
+        ));
+
+
+    }
+
     public function login($login, $password){
 
         $sql = new Sql();
