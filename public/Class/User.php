@@ -62,7 +62,7 @@ class User{
 
         $sql = new Sql();
 
-        $results = $sql->select("SELECT * FROM users WHERE id = :ID", array(":ID=>$id"));
+        $results = $sql->select("SELECT * FROM users WHERE id = :ID", array(":ID"=>$id));
 
         if (count($results) > 0){
 
@@ -70,17 +70,29 @@ class User{
 
             $this->setId($row['id']);
 
-            $this->setId($row['login']);
+            $this->setLogin($row['login']);
 
-            $this->setId($row['senha']);
+            $this->setSenha($row['senha']);
 
-            $this->setId(new DateTime($row['data_tempo']));
+            $this->setData_Tempo(new DateTime($row['data_tempo']));
 
 
         }
 
     }
 
+    public function __toString(){
+
+        return json_encode(array(
+
+            "id"=>$this->getId(),
+            "login"=>$this->getLogin(),
+            "senha"=>$this->getSenha(),
+            "data_tempo"=>$this->getData_Tempo()->format("d-m-Y H:i:s")
+        
+        ));
+
+    }
 
 }
 

@@ -16,7 +16,7 @@ class Sql extends PDO{
         
         foreach ($parameters as $key => $value){
     
-            $this->setParam($key, $value);
+            $this->setParam($statment, $key, $value);
     
         }
 
@@ -29,7 +29,7 @@ class Sql extends PDO{
     
     }
 
-    public function queryX($rawQuery, array $params = []){
+    public function queryNew($rawQuery, $params = array()){
         
         $stmt = $this->conn->prepare($rawQuery);
         
@@ -41,17 +41,15 @@ class Sql extends PDO{
 
     }
 
-    public function select( $rawQuery, array $params = []):array
+    public function select( $rawQuery, $params = array()):array
     {
 
-        $stmt = $this->queryX($rawQuery, $params);
+        $stmt = $this->queryNew($rawQuery, $params);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 
     }
 
 }
-
 
 ?>
