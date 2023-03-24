@@ -57,6 +57,43 @@ class User{
 
     }
 
+    
+    
+    //Métodos que conversam com o banco de dados
+    
+    public static function search($value){
+
+        $sql = new Sql();
+
+        return $sql->select("SELECT * FROM users WHERE login LIKE :SEARCH ORDER BY login", array(
+            ':SEARCH'=>"%".$value."%"
+        ));
+
+    }
+
+    public function login($login, $password){
+
+        $sql = new Sql();
+
+        $results = $sql->select("SELECT * FROM users WHERE login = :LOGIN AND senha = :PASSWORD", array(
+            ":LOGIN"=>$login,
+            ":PASSWORD"=>$password
+        ));
+
+        if (count($results) > 0){
+
+            $row = $results[0];
+
+            $this->setId($row["id"]);
+            $this->setLogin($row["login"]);
+            $this->setSenha($row["senha"]);
+            $this->setData_Tempo(new DateTime($row["data_tempo"]));
+
+        }
+
+    }
+
+
     public static function listUsers(){
 
         $sql = new Sql();
@@ -82,7 +119,8 @@ class User{
 
             $this->setSenha($row['senha']);
 
-            $this->setData_Tempo(new DateTime($row['data_tempo']));
+            $this->setData_Tempo(DateTime::createFromFormat('Y-m-d H:i:s', $row["data_tempo"]));
+
 
 
         }
@@ -96,7 +134,7 @@ class User{
             "id"=>$this->getId(),
             "login"=>$this->getLogin(),
             "senha"=>$this->getSenha(),
-            "data_tempo"=>$this->getData_Tempo()->format("d-m-Y H:i:s")
+            "data_tempo"=>$this->getData_Tempo()->format('d-m-Y H:i:s')
         
         ));
 
