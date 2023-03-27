@@ -121,6 +121,22 @@ class User{
 
     }
 
+    // 2:20
+    public function deleteUser($id){
+
+        $this->loadById($id);
+
+        $sql = new Sql();
+
+        $sql->queryNew("DELETE FROM users WHERE id=:ID", array(
+            ':ID'=>$this->getId()
+        ));
+
+        echo $this;
+
+
+    }
+
     public function login($login, $password){
 
         $sql = new Sql();

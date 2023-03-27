@@ -40,13 +40,13 @@ echo json_encode($searchUser);
 // echo $user;
 
 
-// Atulizando dados do usuário 
+// Atualizando dados do usuário 
+// $user->loadById(110);
+// $user->updateUser("professor@email.com.br", "4545454545455");
+// echo $user;
 
 
-$user->loadById(110);
-
-$user->updateUser("professor@email.com.br", "4545454545455");
-
-echo $user;
+// Deletando usuário a partir do ID
+$user->deleteUser(88);
 
 ?>
