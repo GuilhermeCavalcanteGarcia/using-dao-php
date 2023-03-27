@@ -34,10 +34,19 @@ echo json_encode($searchUser);
 
 
 //Cadastrando usurário diretamente por método estático
-$user->setLogin("testeblumenau@email.com.br");
-$user->setSenha("44444");
+// $user->setLogin("testeblumenau@email.com.br");
+// $user->setSenha("44444");
+// echo $user->registerUser();
+// echo $user;
 
-echo $user->registerUser();
+
+// Atulizando dados do usuário 
+
+
+$user->loadById(110);
+
+$user->updateUser("professor@email.com.br", "4545454545455");
 
 echo $user;
+
 ?>
