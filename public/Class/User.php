@@ -8,6 +8,13 @@ class User{
     private $data_tempo;
 
 
+    public function __construct($login = "", $senha = ""){
+
+        $this->setLogin($login);
+        $this->setSenha($senha);
+
+    }
+
     //SET and GET do id
     public function getId(){
 
@@ -57,6 +64,16 @@ class User{
 
     }
 
+    public function setData($data){
+
+        $this->setId($data["id"]);
+        $this->setLogin($data["login"]);
+        $this->setSenha($data["senha"]);
+        $this->setData_Tempo(DateTime::createFromFormat('Y-m-d H:i:s', $data["data_tempo"]));
+
+
+    }
+
     
     
     //Métodos que conversam com o banco de dados
@@ -71,14 +88,20 @@ class User{
 
     }
 
-    public static function registerUser($login, $senha){
+    public function registerUser(){
 
         $sql = new Sql();
 
-        $request = $sql->select("INSERT INTO users(login, senha) VALUES(:LOGIN,:PASSWORD)", array(
-            ':LOGIN'=>$login,
-            ':PASSWORD'=>$senha
+        $results = $sql->select("CALL sp_users_insert(:LOGIN, :PASSWORD)", array(
+            ':LOGIN'=>$this->getLogin(),
+            ':PASSWORD'=>$this->getSenha()
         ));
+
+        if (count($results) > 0){
+        
+            $this->setData($results[0]);
+        
+        }
 
 
     }
@@ -86,21 +109,16 @@ class User{
     public function login($login, $password){
 
         $sql = new Sql();
-
+        
         $results = $sql->select("SELECT * FROM users WHERE login = :LOGIN AND senha = :PASSWORD", array(
             ":LOGIN"=>$login,
             ":PASSWORD"=>$password
         ));
-
+        
         if (count($results) > 0){
-
-            $row = $results[0];
-
-            $this->setId($row["id"]);
-            $this->setLogin($row["login"]);
-            $this->setSenha($row["senha"]);
-            $this->setData_Tempo(new DateTime($row["data_tempo"]));
-
+        
+            $this->setData($results[0]);
+        
         }
 
     }
@@ -123,17 +141,7 @@ class User{
 
         if (count($results) > 0){
 
-            $row = $results[0];
-
-            $this->setId($row['id']);
-
-            $this->setLogin($row['login']);
-
-            $this->setSenha($row['senha']);
-
-            $this->setData_Tempo(DateTime::createFromFormat('Y-m-d H:i:s', $row["data_tempo"]));
-
-
+            $this->setData($results[0]);
 
         }
 
@@ -146,7 +154,7 @@ class User{
             "id"=>$this->getId(),
             "login"=>$this->getLogin(),
             "senha"=>$this->getSenha(),
-            "data_tempo"=>$this->getData_Tempo()->format('d-m-Y H:i:s')
+            "data_tempo"=>$this->getData_Tempo()->format("d-m-Y H:i:s")
         
         ));
 
